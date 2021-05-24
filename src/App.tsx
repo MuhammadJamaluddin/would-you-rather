@@ -1,13 +1,24 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider } from "react-redux";
 
 import Login from "./components/Login";
+import Home from "./components/Home";
+import PrivateRoute from "./components/ProtectedRoute";
+import { store } from "./store";
 
 const App = () => {
   return (
-    <Router>
-      <Route path="/login" component={Login} />
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Switch>
+          <Route path="/login" component={Login} />
+          <PrivateRoute>
+            <Route path="/protected" component={Home} />
+          </PrivateRoute>
+        </Switch>
+      </Router>
+    </Provider>
   );
 };
 
