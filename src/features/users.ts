@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { _getUsers } from "../_DATA";
 
@@ -31,11 +31,13 @@ const usersSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getUsers.fulfilled, (state, { payload }) => {
-      console.log("payload", payload);
-      state.users = payload.users;
-      state.loading = false;
-    });
+    builder.addCase(
+      getUsers.fulfilled,
+      (state, { payload }: PayloadAction<UserData>) => {
+        state.users = payload;
+        state.loading = false;
+      }
+    );
     builder.addCase(getUsers.pending, (state, action) => {
       state.loading = true;
     });
