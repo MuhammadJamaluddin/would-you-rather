@@ -14,7 +14,7 @@ const App = () => {
         <Switch>
           <Route path="/login" component={Login} />
           <PrivateRoute>
-            <Route path="/protected" component={Home} />
+            <Route path="/home" component={Home} />
           </PrivateRoute>
         </Switch>
       </Router>

@@ -6,7 +6,7 @@ export const getUsers = createAsyncThunk("users", async () => {
   return await _getUsers();
 });
 
-interface User {
+export interface User {
   id: string;
   name: string;
   avatarURL: string;

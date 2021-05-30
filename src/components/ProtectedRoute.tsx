@@ -1,12 +1,16 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Redirect, Route } from "react-router";
 
 const PrivateRoute: FC = ({ children, ...rest }) => {
+  const [loggedInUserId] = useState(localStorage.getItem("loggedInUserId"));
+
+  console.log("loggedInUserId here", loggedInUserId);
+
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        false ? (
+        Boolean(loggedInUserId) ? (
           children
         ) : (
           <Redirect
