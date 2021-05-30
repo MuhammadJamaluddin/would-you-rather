@@ -1,12 +1,11 @@
-import React from "react";
-import { useSelector } from "react-redux";
-
-import { RootState } from "../store";
+import React, { useState } from "react";
 
 const Home = () => {
-  const loggedInUser = useSelector((state: RootState) => state.loggedInUser);
+  const loggedInUser = useState(
+    JSON.parse(localStorage.getItem("loggedInUser") as string)
+  );
 
-  console.log("loggedInUser", loggedInUser);
+  console.log("loggedInUser in home", loggedInUser[0]);
 
   return <h1>Home</h1>;
 };

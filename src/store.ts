@@ -1,12 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import usersReducer from "./features/users";
-import loggedInUser from "./features/loggedInUser";
 
 export const store = configureStore({
   reducer: {
     users: usersReducer,
-    loggedInUser,
   },
 });
 

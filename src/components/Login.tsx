@@ -9,7 +9,7 @@ import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 
 import { getUsers } from "../features/users";
-import { login, loggedInUserType } from "../features/loggedInUser";
+import { loggedInUserType } from "../features/loggedInUser";
 import { RootState } from "../store";
 import { useHistory } from "react-router";
 
@@ -39,7 +39,6 @@ const StyledButton = styled(Button)`
 
 const Login = () => {
   const { push } = useHistory();
-
   const dispatch = useDispatch();
   const { users } = useSelector((state: RootState) => state.users);
   const classes = useStyles();
@@ -81,8 +80,8 @@ const Login = () => {
         color="primary"
         onClick={() => {
           if (selectedUserId && selectedUser) {
-            dispatch(login(selectedUser));
-            localStorage.setItem("loggedInUserId", selectedUserId);
+            console.log("selectedUser", selectedUser);
+            localStorage.setItem("loggedInUser", JSON.stringify(selectedUser));
             push("/home");
           }
         }}
