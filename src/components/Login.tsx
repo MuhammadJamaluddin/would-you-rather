@@ -68,9 +68,9 @@ const Login = () => {
           value={selectedUserId}
           onChange={handleChange}
         >
-          {Object.entries(users).map((user) => (
-            <MenuItem key={user[0]} value={user[0]}>
-              {user[1].name}
+          {Object.values(users).map((user) => (
+            <MenuItem key={user.id} value={user.id}>
+              {user.name}
             </MenuItem>
           ))}
         </Select>
@@ -80,7 +80,6 @@ const Login = () => {
         color="primary"
         onClick={() => {
           if (selectedUserId && selectedUser) {
-            console.log("selectedUser", selectedUser);
             localStorage.setItem("loggedInUser", JSON.stringify(selectedUser));
             push("/home");
           }

@@ -30,7 +30,7 @@ const StyledButton = styled(Button)`
 
 const Home = () => {
   const { push } = useHistory();
-  const loggedInUser = useState<User>(
+  const [loggedInUser] = useState<User>(
     JSON.parse(localStorage.getItem("loggedInUser") as string)
   );
   const classes = useStyles();
@@ -56,13 +56,13 @@ const Home = () => {
         </Tabs>
       </Paper>
       <CurrentUser>
-        <p>Current User {loggedInUser[0].name}</p>
+        <p>Current User {loggedInUser.name}</p>
         <img
           style={{}}
           height="50px"
           alt="userAvatar"
           // src={process.env.PUBLIC_URL + "/images/boy1.png"}
-          src={`${process.env.PUBLIC_URL}/images/${loggedInUser[0].avatarURL}.png`}
+          src={`${process.env.PUBLIC_URL}/images/${loggedInUser.avatarURL}.png`}
         ></img>
         <StyledButton
           variant="contained"
