@@ -1,13 +1,66 @@
 import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import styled from "styled-components";
+
+import Questions from "./Questions";
+import NewQuestion from "./NewQuestion";
+import LeaderBoard from "./LeaderBoard";
+import { User } from "../features/users";
+
+const useStyles = makeStyles({
+  root: {
+    flexGrow: 1,
+  },
+});
+
+const CurrentUser = styled.div`
+  font-weight: bold;
+  padding: 5px;
+`;
 
 const Home = () => {
-  const loggedInUser = useState(
+  const loggedInUser = useState<User>(
     JSON.parse(localStorage.getItem("loggedInUser") as string)
   );
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
 
-  console.log("loggedInUser in home", loggedInUser[0]);
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setValue(newValue);
+  };
 
-  return <h1>Home</h1>;
+  return (
+    <>
+      <Paper className={classes.root}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          centered
+        >
+          <Tab label="Home" />
+          <Tab label="New Question" />
+          <Tab label="Leader Board" />
+        </Tabs>
+      </Paper>
+      <CurrentUser>
+        <p>Current User {loggedInUser[0].name}</p>
+        <img
+          height="50px"
+          alt="userAvatar"
+          // src={process.env.PUBLIC_URL + "/images/boy1.png"}
+          src={`${process.env.PUBLIC_URL}/images/${loggedInUser[0].avatarURL}.png`}
+        ></img>
+      </CurrentUser>
+      {value === 0 && <Questions />}
+      {value === 1 && <NewQuestion />}
+      {value === 2 && <LeaderBoard />}
+    </>
+  );
 };
 
 export default Home;
