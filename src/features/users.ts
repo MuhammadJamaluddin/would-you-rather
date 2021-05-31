@@ -19,12 +19,12 @@ export interface User {
 interface UserData {
   [name: string]: User;
 }
-interface usersState {
+interface UsersState {
   loading: boolean;
   users: UserData;
 }
 
-const initialState: usersState = { users: {}, loading: true };
+const initialState: UsersState = { users: {}, loading: true };
 
 const usersSlice = createSlice({
   name: "users",
