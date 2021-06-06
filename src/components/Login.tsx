@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 import { getUsers } from "../features/users";
 import { loggedInUserType } from "../features/loggedInUser";
 import { RootState } from "../store";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

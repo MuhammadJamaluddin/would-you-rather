@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 import Questions from "./Questions";
 import NewQuestion from "./NewQuestion";
 import LeaderBoard from "./LeaderBoard";
 import { User } from "../features/users";
+import PrivateRoute from "./PrivateRoute";
+import Question from "./Question";
 
 const useStyles = makeStyles({
   root: {
@@ -28,6 +30,8 @@ const StyledButton = styled(Button)`
   margin-top: 10px;
 `;
 
+const routes = ["/home/questions", "/home/new-questions", "/home/leader-board"];
+
 const Home = () => {
   const { push } = useHistory();
   const [loggedInUser] = useState<User>(
@@ -38,7 +42,12 @@ const Home = () => {
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
+    push(routes[newValue]);
   };
+
+  useEffect(() => {
+    push(routes[0]);
+  }, [push]);
 
   return (
     <>
@@ -61,7 +70,6 @@ const Home = () => {
           style={{}}
           height="50px"
           alt="userAvatar"
-          // src={process.env.PUBLIC_URL + "/images/boy1.png"}
           src={`${process.env.PUBLIC_URL}/images/${loggedInUser.avatarURL}.png`}
         ></img>
         <StyledButton
@@ -75,9 +83,14 @@ const Home = () => {
           Log out
         </StyledButton>
       </CurrentUser>
-      {value === 0 && <Questions />}
-      {value === 1 && <NewQuestion />}
-      {value === 2 && <LeaderBoard />}
+      <PrivateRoute
+        exact
+        path="/home/questions/:question_id"
+        component={Question}
+      />
+      <PrivateRoute exact path={routes[0]} component={Questions} />
+      <PrivateRoute exact path={routes[1]} component={NewQuestion} />
+      <PrivateRoute exact path={routes[2]} component={LeaderBoard} />
     </>
   );
 };

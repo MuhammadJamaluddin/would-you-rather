@@ -1,15 +1,14 @@
 import React, { FC, useState } from "react";
-import { Redirect, Route } from "react-router";
+import { Redirect, Route, RouteProps } from "react-router-dom";
 
-const PrivateRoute: FC = ({ children, ...rest }) => {
+const PrivateRoute: FC<RouteProps> = ({ component, ...rest }) => {
   const [loggedInUserId] = useState(localStorage.getItem("loggedInUser"));
 
   return (
     <Route
-      {...rest}
       render={({ location }) =>
         Boolean(loggedInUserId) ? (
-          children
+          <Route component={component} {...rest} />
         ) : (
           <Redirect
             to={{

@@ -2,9 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 
+import PrivateRoute from "./components/PrivateRoute";
 import Login from "./components/Login";
 import Home from "./components/Home";
-import PrivateRoute from "./components/ProtectedRoute";
 import { store } from "./store";
 
 const App = () => {
@@ -13,9 +13,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route path="/login" component={Login} />
-          <PrivateRoute>
-            <Route path="/home" component={Home} />
-          </PrivateRoute>
+          <PrivateRoute path="/home" component={Home} />
         </Switch>
       </Router>
     </Provider>
