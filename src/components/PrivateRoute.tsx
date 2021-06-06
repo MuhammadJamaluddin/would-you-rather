@@ -3,14 +3,14 @@ import { Redirect, Route, RouteProps } from "react-router-dom";
 import { loggedInUserType } from "../features/loggedInUser";
 
 const PrivateRoute: FC<RouteProps> = ({ component, ...rest }) => {
-  const [loggedInUserId] = useState<loggedInUserType | null>(
+  const [loggedInUser] = useState<loggedInUserType | null>(
     JSON.parse(localStorage.getItem("loggedInUser") as string)
   );
 
   return (
     <Route
       render={({ location }) =>
-        Boolean(loggedInUserId) ? (
+        Boolean(loggedInUser) ? (
           <Route component={component} {...rest} />
         ) : (
           <Redirect
