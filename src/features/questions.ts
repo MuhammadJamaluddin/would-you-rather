@@ -7,11 +7,11 @@ export const getQuestions = createAsyncThunk("users", async () => {
 });
 
 export interface Option {
-  vote: string[];
+  votes: string[];
   text: string;
 }
 
-export interface Question {
+export interface QuestionType {
   id: string;
   author: string;
   timestamp: number;
@@ -20,7 +20,7 @@ export interface Question {
 }
 
 interface QuestionsData {
-  [questionId: string]: Question;
+  [questionId: string]: QuestionType;
 }
 
 interface QuestionsState {

@@ -1,10 +1,23 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
+import { QuestionType } from "../features/questions";
+import { Container } from "./UnansweredQuestions";
 
 const Question = () => {
-  let { question_id } = useParams<{ question_id: string }>();
-  console.log("question_id", question_id);
+  const { state: question } = useLocation<QuestionType>();
+  console.log("state", question);
 
-  return <h1>{question_id}</h1>;
+  return (
+    <Container>
+      <img
+        style={{}}
+        height="50px"
+        alt="userAvatar"
+        src={`${process.env.PUBLIC_URL}/images/${question.author}.png`}
+      ></img>
+      <div>Would you rather</div>
+    </Container>
+  );
 };
 export default Question;

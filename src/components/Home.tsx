@@ -10,9 +10,9 @@ import { useHistory } from "react-router-dom";
 import Questions from "./Questions";
 import NewQuestion from "./NewQuestion";
 import LeaderBoard from "./LeaderBoard";
-import { User } from "../features/users";
 import PrivateRoute from "./PrivateRoute";
 import Question from "./Question";
+import { loggedInUserType } from "../features/loggedInUser";
 
 const useStyles = makeStyles({
   root: {
@@ -34,7 +34,7 @@ const routes = ["/home/questions", "/home/new-questions", "/home/leader-board"];
 
 const Home = () => {
   const { push } = useHistory();
-  const [loggedInUser] = useState<User>(
+  const [loggedInUser] = useState<loggedInUserType>(
     JSON.parse(localStorage.getItem("loggedInUser") as string)
   );
   const classes = useStyles();
@@ -70,7 +70,7 @@ const Home = () => {
           style={{}}
           height="50px"
           alt="userAvatar"
-          src={`${process.env.PUBLIC_URL}/images/${loggedInUser.avatarURL}.png`}
+          src={`${process.env.PUBLIC_URL}/images/${loggedInUser.id}.png`}
         ></img>
         <StyledButton
           variant="contained"

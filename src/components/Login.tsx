@@ -43,7 +43,7 @@ const Login = () => {
   const { users } = useSelector((state: RootState) => state.users);
   const classes = useStyles();
   const [selectedUserId, setSelectedUserId] = useState<string>("");
-  const [selectedUser, setSelectedUser] = useState<loggedInUserType>(null);
+  const [selectedUser, setSelectedUser] = useState<loggedInUserType>();
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -80,7 +80,13 @@ const Login = () => {
         color="primary"
         onClick={() => {
           if (selectedUserId && selectedUser) {
-            localStorage.setItem("loggedInUser", JSON.stringify(selectedUser));
+            localStorage.setItem(
+              "loggedInUser",
+              JSON.stringify({
+                id: selectedUser.id,
+                name: selectedUser.name,
+              })
+            );
             push("/home");
           }
         }}
