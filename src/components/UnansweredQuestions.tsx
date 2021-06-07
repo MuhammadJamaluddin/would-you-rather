@@ -20,7 +20,9 @@ const UnansweredQuestions = () => {
   const [loggedInUser] = useState<loggedInUserType>(
     JSON.parse(localStorage.getItem("loggedInUser") as string)
   );
-  const { questions } = useSelector((state: RootState) => state.questions);
+  const { questions, loading } = useSelector(
+    (state: RootState) => state.questions
+  );
 
   useEffect(() => {
     dispatch(getQuestions());
@@ -35,7 +37,7 @@ const UnansweredQuestions = () => {
 
   return (
     <>
-      {questions &&
+      {!loading &&
         Object.values(questions)
           .filter(
             (question) =>

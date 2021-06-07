@@ -1,8 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { OptionType } from "../components/Question";
+import { store } from "../store";
 
 import { _getQuestions } from "../_DATA";
 
-export const getQuestions = createAsyncThunk("users", async () => {
+export const getQuestions = createAsyncThunk("questions", async () => {
   return await _getQuestions();
 });
 
@@ -28,12 +30,23 @@ interface QuestionsState {
   questions: QuestionsData;
 }
 
+interface AnswerQuestionPayload {
+  authedUser: string;
+  qid: string;
+  answer: OptionType;
+}
+
 const initialState: QuestionsState = { questions: {}, loading: true };
 
 const questionsSlice = createSlice({
   name: "questions",
   initialState,
-  reducers: {},
+  reducers: {
+    answerQuestion: (state, action: PayloadAction<AnswerQuestionPayload>) => {
+      const { authedUser, qid, answer } = action.payload;
+      state.questions[qid][answer].votes.concat([authedUser]);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(
       getQuestions.fulfilled,
@@ -47,5 +60,7 @@ const questionsSlice = createSlice({
     });
   },
 });
+
+export const { answerQuestion } = questionsSlice.actions;
 
 export default questionsSlice.reducer;

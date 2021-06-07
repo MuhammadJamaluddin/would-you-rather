@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -7,11 +7,12 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import { Button } from "@material-ui/core";
 
-import { QuestionType } from "../features/questions";
+import { answerQuestion, QuestionType } from "../features/questions";
 import { Container } from "./UnansweredQuestions";
 import { _saveQuestionAnswer } from "../_DATA";
 import { loggedInUserType } from "../features/loggedInUser";
 import QuestionStats from "./QuestionStats";
+import { useDispatch } from "react-redux";
 
 export enum OptionType {
   optionOne = "optionOne",
@@ -19,6 +20,7 @@ export enum OptionType {
 }
 
 const Question = () => {
+  const dispatch = useDispatch();
   const { state: question } = useLocation<QuestionType>();
   const loggedInUser: loggedInUserType = JSON.parse(
     localStorage.getItem("loggedInUser") as string
@@ -36,13 +38,33 @@ const Question = () => {
       qid: question.id,
       answer: value,
     });
+    dispatch(
+      answerQuestion({
+        authedUser: loggedInUser.id,
+        qid: question.id,
+        answer: value,
+      })
+    );
     setShowStats(true);
-  }, [loggedInUser.id, question.id, value]);
+  }, [dispatch, loggedInUser.id, question.id, value]);
+
+  useEffect(() => {
+    if (
+      question.optionOne.votes.includes(loggedInUser.id) ||
+      question.optionTwo.votes.includes(loggedInUser.id)
+    )
+      setShowStats(true);
+  }, [
+    loggedInUser.id,
+    question.optionOne.votes,
+    question.optionTwo.votes,
+    showStats,
+  ]);
 
   return (
     <Container>
       {showStats ? (
-        <QuestionStats question={question} value={value} />
+        <QuestionStats question_id={question.id} value={value} />
       ) : (
         <>
           <img
